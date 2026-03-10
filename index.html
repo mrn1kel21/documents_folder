@@ -294,24 +294,23 @@
       const btn = document.getElementById("btnNext");
       btn.disabled = true;
       btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Отправка...`;
-
-      // Получаем файлы
+    
       const pFile = document.getElementById('passport').files[0];
       const prFile = document.getElementById('propiska').files[0];
       const sFile = document.getElementById('snils').files[0];
       const iFile = document.getElementById('inn').files[0];
-
+    
       const getBase64 = (file) => new Promise(resolve => {
         if (!file) return resolve(null);
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result.split(',')[1]);
         reader.readAsDataURL(file);
       });
-
+    
       const [pB64, prB64, sB64, iB64] = await Promise.all([
         getBase64(pFile), getBase64(prFile), getBase64(sFile), getBase64(iFile)
       ]);
-
+    
       const dataForGAS = {
         name: document.getElementById("name").value.trim(),
         birth: document.getElementById("birth").value,
@@ -324,19 +323,20 @@
         snils_base64: sB64, snils_name: sFile?.name, snils_type: sFile?.type,
         inn_base64: iB64, inn_name: iFile?.name, inn_type: iFile?.type
       };
-
+    
       try {
-        // 1. Сохраняем в Google Диск + Таблицу
         const response = await fetch('https://script.google.com/macros/s/AKfycbxotCiuILgBu4NT34c4DXoo8IBdkrCaNno2KCKZMW22XSQSBUwId2-PCiZE1cVOpipP/exec', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'text/plain;charset=utf-8'   // ← ЭТО ИСПРАВЛЕНИЕ (главное!)
+          },
           body: JSON.stringify(dataForGAS)
         });
-
+      
         const result = await response.json();
         if (result.status !== 'success') throw new Error("Ошибка Google Apps Script");
-
-        // 2. Отправляем данные боту (чтобы сработал handle_webapp_data)
+      
+        // Отправляем данные боту
         const dataForBot = {
           action: "registration_complete",
           name: dataForGAS.name,
@@ -347,19 +347,18 @@
           card_number: dataForGAS.card_number
         };
         tg.sendData(JSON.stringify(dataForBot));
-
-        // 3. Показываем успех и закрываем WebApp
+      
         tg.HapticFeedback.notificationOccurred('success');
         document.getElementById("regForm").classList.add("hidden");
         document.getElementById("success").classList.remove("hidden");
-
+      
         setTimeout(() => tg.close(), 1600);
-
+      
       } catch (err) {
-        console.error(err);
+        console.error("Полная ошибка:", err);   // ← Добавил для отладки
         btn.disabled = false;
         btn.innerHTML = 'Отправить анкету <i class="fas fa-paper-plane ml-2"></i>';
-        alert('Ошибка отправки. Проверьте интернет и попробуйте снова.');
+        alert('Ошибка отправки. Откройте F12 → вкладка Console и пришлите мне скриншот ошибки.');
         tg.HapticFeedback.notificationOccurred('error');
       }
     }
