@@ -325,18 +325,24 @@
       };
     
       try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbxotCiuILgBu4NT34c4DXoo8IBdkrCaNno2KCKZMW22XSQSBUwId2-PCiZE1cVOpipP/exec', {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbw5SlPLY5XMUyTuMJgVlbWaJ3AhlhdN2KXWQUsUMAgSw89X1Pu44UXOgxwEpzSD93uA/exec', {
           method: 'POST',
-          headers: { 
-            'Content-Type': 'text/plain;charset=utf-8'   // ← ЭТО ИСПРАВЛЕНИЕ (главное!)
-          },
-          body: JSON.stringify(dataForGAS)
+          headers: { 'Content-Type': 'application/json' }
         });
       
-        const result = await response.json();
-        if (result.status !== 'success') throw new Error("Ошибка Google Apps Script");
+        const resultText = await response.text();
+        let result;
+        try {
+          result = JSON.parse(resultText);
+        } catch (e) {
+          throw new Error("Google вернул не JSON: " + resultText);
+        }
       
-        // Отправляем данные боту
+        if (result.status !== 'success') {
+          throw new Error(result.message || "Неизвестная ошибка Google");
+        }
+      
+        // Всё ок — отправляем боту
         const dataForBot = {
           action: "registration_complete",
           name: dataForGAS.name,
@@ -355,11 +361,12 @@
         setTimeout(() => tg.close(), 1600);
       
       } catch (err) {
-        console.error("Полная ошибка:", err);   // ← Добавил для отладки
+        console.error("Полная ошибка:", err);
         btn.disabled = false;
         btn.innerHTML = 'Отправить анкету <i class="fas fa-paper-plane ml-2"></i>';
-        alert('Ошибка отправки. Откройте F12 → вкладка Console и пришлите мне скриншот ошибки.');
-        tg.HapticFeedback.notificationOccurred('error');
+
+        // ←←← ЭТО САМОЕ ВАЖНОЕ
+        alert('Ошибка от Google:\n\n' + err.message + '\n\nСкопируй это сообщение и пришли мне.');
       }
     }
 
