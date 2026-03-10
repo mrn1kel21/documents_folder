@@ -4,51 +4,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ПВЗ • Трудоустройство</title>
-  
+ 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-    
-    body { 
-      background: radial-gradient(circle at top right, #2e1065, #020617); 
+   
+    body {
+      background: radial-gradient(circle at top right, #2e1065, #020617);
       font-family: 'Inter', sans-serif;
       color: white;
       min-height: 100vh;
       overflow-x: hidden;
     }
-
     .glass {
       background: rgba(255, 255, 255, 0.03);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
-
     .step-circle {
       width: 40px; height: 40px;
       display: flex; align-items: center; justify-content: center;
       border-radius: 50%; z-index: 10;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
     .progress-bar-bg {
       height: 4px; background: rgba(255, 255, 255, 0.1);
       position: absolute; top: 20px; left: 0; right: 0; z-index: 1;
     }
-
     .progress-bar-fill {
       height: 4px; background: #10b981;
       position: absolute; top: 20px; left: 0; width: 0%;
       transition: width 0.5s ease; z-index: 2;
     }
-
     input:focus, textarea:focus {
       box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
     }
-
     .step-content { animation: fadeIn 0.4s ease-out; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -57,13 +50,12 @@
   </style>
 </head>
 <body class="flex items-center justify-center p-4">
-
   <div class="glass max-w-xl w-full rounded-[2.5rem] shadow-2xl p-6 md:p-10">
-    
+   
     <div class="relative mb-12 px-4">
       <div class="progress-bar-bg"></div>
       <div id="progressFill" class="progress-bar-fill"></div>
-      
+     
       <div class="flex justify-between relative">
         <div class="flex flex-col items-center">
           <div id="circle1" class="step-circle bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)]">
@@ -71,14 +63,14 @@
           </div>
           <span class="text-[10px] uppercase tracking-widest mt-2 font-bold text-emerald-400">Инфо</span>
         </div>
-        
+       
         <div class="flex flex-col items-center">
           <div id="circle2" class="step-circle bg-white/10 text-white/40">
             <i class="fas fa-file-alt text-sm"></i>
           </div>
           <span class="text-[10px] uppercase tracking-widest mt-2 font-bold text-white/40">Фото</span>
         </div>
-        
+       
         <div class="flex flex-col items-center">
           <div id="circle3" class="step-circle bg-white/10 text-white/40">
             <i class="fas fa-credit-card text-sm"></i>
@@ -89,8 +81,7 @@
     </div>
 
     <form id="regForm" onsubmit="return false;">
-      
-      <!-- step1, step2, step3 без изменений (оставил как было) -->
+     
       <div id="step1" class="step-content">
         <div class="text-center mb-8">
           <h2 class="text-3xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">Личные данные</h2>
@@ -99,20 +90,19 @@
         <div class="space-y-4">
           <div class="relative">
             <i class="fas fa-id-card absolute left-4 top-5 text-white/30"></i>
-            <input id="name" type="text" required placeholder="ФИО полностью" 
+            <input id="name" type="text" required placeholder="ФИО полностью"
               class="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-5 py-4 focus:outline-none focus:border-emerald-500 transition-all">
           </div>
-          
+         
           <div class="relative">
             <i class="fas fa-calendar-alt absolute left-4 top-5 text-white/30"></i>
-            <input id="birth" type="text" maxlength="10" required placeholder="DD.MM.YYYY" 
+            <input id="birth" type="text" maxlength="10" required placeholder="DD.MM.YYYY"
               class="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-5 py-4 focus:outline-none focus:border-emerald-500 transition-all">
           </div>
-
-          <input id="phone" type="tel" required placeholder="+7 (___) ___-__-__" 
+          <input id="phone" type="tel" required placeholder="+7 (___) ___-__-__"
             class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-all">
-          
-          <textarea id="address" rows="3" required placeholder="Адрес проживания" 
+         
+          <textarea id="address" rows="3" required placeholder="Адрес проживания"
             class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-all"></textarea>
         </div>
       </div>
@@ -129,7 +119,6 @@
             <p class="text-[11px] uppercase font-bold text-white/60">Паспорт</p>
             <img id="prev_passport" class="mt-2 rounded-lg max-h-20 mx-auto hidden border border-white/20">
           </div>
-          <!-- остальные 3 блока фото без изменений -->
           <div onclick="document.getElementById('propiska').click()" class="group cursor-pointer bg-white/5 border-2 border-dashed border-white/10 rounded-2xl p-4 text-center hover:border-emerald-500/50 transition-all">
             <input id="propiska" type="file" accept="image/*" class="hidden" onchange="previewFile(this, 'prev_propiska')">
             <i class="fas fa-home text-2xl mb-2 text-white/20 group-hover:text-emerald-400"></i>
@@ -157,17 +146,17 @@
           <p class="text-white/40 text-sm mt-2">Данные для выплаты зарплаты</p>
         </div>
         <div class="space-y-4">
-          <input id="bank_name" type="text" required placeholder="Название банка" 
+          <input id="bank_name" type="text" required placeholder="Название банка"
             class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-all">
-          <input id="card_number" type="text" required placeholder="Номер карты или счёта" 
+          <input id="card_number" type="text" required placeholder="Номер карты или счёта"
             class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-all">
         </div>
       </div>
 
       <div class="flex gap-4 mt-10">
-        <button type="button" id="btnBack" onclick="prevStep()" 
+        <button type="button" id="btnBack" onclick="prevStep()"
           class="flex-1 py-4 rounded-2xl bg-white/5 hover:bg-white/10 font-semibold transition-all hidden border border-white/10">Назад</button>
-        <button type="button" id="btnNext" onclick="nextStep()" 
+        <button type="button" id="btnNext" onclick="nextStep()"
           class="flex-[2] bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/20 py-4 rounded-2xl font-bold text-white transition-all transform active:scale-[0.98]">
           Далее <i class="fas fa-chevron-right ml-2 text-xs"></i>
         </button>
@@ -179,7 +168,7 @@
         <i class="fas fa-check text-4xl"></i>
       </div>
       <h2 class="text-3xl font-bold mb-3">Готово!</h2>
-      <p class="text-white/60">Анкета сохранена в таблице,<br>фото — в Google Диске.<br>Окно закроется.</p>
+      <p class="text-white/60">Фото сохранены в Google Диск,<br>данные — в таблицу.<br>Бот сейчас отправит договор.</p>
     </div>
   </div>
 
@@ -190,7 +179,7 @@
 
     let currentStep = 1;
 
-    // маска даты (без изменений)
+    // === Маска даты DD.MM.YYYY ===
     const birthInput = document.getElementById('birth');
     birthInput.addEventListener('input', function(e) {
       let val = e.target.value.replace(/\D/g, '');
@@ -216,8 +205,7 @@
       }
     }
 
-    function updateProgress() { /* без изменений */ 
-      // (код progress оставил оригинальный)
+    function updateProgress() {
       const fill = document.getElementById("progressFill");
       fill.style.width = ((currentStep - 1) / 2 * 100) + "%";
 
@@ -245,7 +233,7 @@
         : 'Далее <i class="fas fa-chevron-right ml-2 text-xs"></i>';
     }
 
-    function getIcon(step) { /* без изменений */ 
+    function getIcon(step) {
       if (step === 1) return '<i class="fas fa-user text-sm"></i>';
       if (step === 2) return '<i class="fas fa-file-alt text-sm"></i>';
       return '<i class="fas fa-credit-card text-sm"></i>';
@@ -256,14 +244,17 @@
       const inputs = stepEl.querySelectorAll('input[required], textarea[required]');
       let valid = true;
 
-      inputs.forEach(i => { if (!i.value.trim()) valid = false; });
+      inputs.forEach(i => {
+        if (!i.value.trim()) valid = false;
+      });
 
+      // Проверка даты на шаге 1
       if (currentStep === 1) {
         const birthVal = document.getElementById("birth").value;
         if (!/^\d{2}.\d{2}.\d{4}$/.test(birthVal)) valid = false;
       }
 
-      // ← НОВАЯ ПРОВЕРКА ФОТО (2 этап)
+      // Проверка всех фото на шаге 2
       if (currentStep === 2) {
         if (!document.getElementById('passport').files.length ||
             !document.getElementById('propiska').files.length ||
@@ -290,7 +281,14 @@
       }
     }
 
-    function prevStep() { /* без изменений */ }
+    function prevStep() {
+      if (currentStep > 1) {
+        document.getElementById(`step${currentStep}`).classList.add("hidden");
+        currentStep--;
+        document.getElementById(`step${currentStep}`).classList.remove("hidden");
+        updateProgress();
+      }
+    }
 
     async function submitForm() {
       const btn = document.getElementById("btnNext");
@@ -314,7 +312,7 @@
         getBase64(pFile), getBase64(prFile), getBase64(sFile), getBase64(iFile)
       ]);
 
-      const data = {
+      const dataForGAS = {
         name: document.getElementById("name").value.trim(),
         birth: document.getElementById("birth").value,
         phone: document.getElementById("phone").value.trim(),
@@ -328,29 +326,45 @@
       };
 
       try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbxotCiuILgBu4NT34c4DXoo8IBdkrCaNno2KCKZMW22XSQSBUwId2-PCiZE1cVOpipP/exec', {  // ← ВСТАВЬТЕ СЮДА URL из Apps Script
+        // 1. Сохраняем в Google Диск + Таблицу
+        const response = await fetch('https://script.google.com/macros/s/AKfycbxotCiuILgBu4NT34c4DXoo8IBdkrCaNno2KCKZMW22XSQSBUwId2-PCiZE1cVOpipP/exec', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+          body: JSON.stringify(dataForGAS)
         });
 
         const result = await response.json();
-        if (result.status !== 'success') throw new Error();
+        if (result.status !== 'success') throw new Error("Ошибка Google Apps Script");
 
+        // 2. Отправляем данные боту (чтобы сработал handle_webapp_data)
+        const dataForBot = {
+          action: "registration_complete",
+          name: dataForGAS.name,
+          birth: dataForGAS.birth,
+          phone: dataForGAS.phone,
+          address: dataForGAS.address,
+          bank_name: dataForGAS.bank_name,
+          card_number: dataForGAS.card_number
+        };
+        tg.sendData(JSON.stringify(dataForBot));
+
+        // 3. Показываем успех и закрываем WebApp
         tg.HapticFeedback.notificationOccurred('success');
         document.getElementById("regForm").classList.add("hidden");
         document.getElementById("success").classList.remove("hidden");
 
-        setTimeout(() => tg.close(), 1800);
+        setTimeout(() => tg.close(), 1600);
 
       } catch (err) {
+        console.error(err);
         btn.disabled = false;
         btn.innerHTML = 'Отправить анкету <i class="fas fa-paper-plane ml-2"></i>';
-        alert('Ошибка отправки. Проверьте подключение.');
+        alert('Ошибка отправки. Проверьте интернет и попробуйте снова.');
         tg.HapticFeedback.notificationOccurred('error');
       }
     }
 
+    // Инициализация
     updateProgress();
   </script>
 </body>
