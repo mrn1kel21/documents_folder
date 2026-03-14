@@ -173,7 +173,7 @@
 
     let currentStep = 1;
 
-    // === Маска даты DD.MM.YYYY ===
+    // Маска даты
     const birthInput = document.getElementById('birth');
     birthInput.addEventListener('input', function(e) {
       let val = e.target.value.replace(/\D/g, '');
@@ -235,9 +235,7 @@
       const stepEl = document.getElementById(`step${currentStep}`);
       const inputs = stepEl.querySelectorAll('input[required], textarea[required]');
       let valid = true;
-      inputs.forEach(i => {
-        if (!i.value.trim()) valid = false;
-      });
+      inputs.forEach(i => { if (!i.value.trim()) valid = false; });
 
       if (currentStep === 1) {
         const birthVal = document.getElementById("birth").value;
@@ -300,7 +298,6 @@
         getBase64(pFile), getBase64(prFile), getBase64(sFile), getBase64(iFile)
       ]);
 
-      // === ПОЛНЫЕ ДАННЫЕ ДЛЯ GOOGLE SCRIPT ===
       const data = {
         telegram_id: tg.initDataUnsafe?.user?.id || null,
         name: document.getElementById("name").value.trim(),
@@ -315,6 +312,8 @@
         inn_base64: iB64, inn_name: iFile?.name || "", inn_type: iFile?.type || ""
       };
 
+      console.log("📤 Отправляем в Google Apps Script:", data);
+
       try {
         const response = await fetch('https://script.google.com/macros/s/AKfycbw5SlPLY5XMUyTuMJgVlbWaJ3AhlhdN2KXWQUsUMAgSw89X1Pu44UXOgxwEpzSD93uA/exec', {
           method: 'POST',
@@ -323,13 +322,13 @@
         });
 
         const resultText = await response.text();
-        let result = JSON.parse(resultText);
+        console.log("📥 Ответ от Google:", resultText);
+        const result = JSON.parse(resultText);
 
         if (result.status !== 'success') {
-          throw new Error(result.message || 'Ошибка Google Apps Script');
+          throw new Error(result.message || 'Неизвестная ошибка');
         }
 
-        // === ОТПРАВКА В ТЕЛЕГРАМ БОТ ===
         const botData = {
           action: "registration_complete",
           name: data.name,
@@ -340,18 +339,16 @@
         tg.HapticFeedback.notificationOccurred('success');
         document.getElementById("regForm").classList.add("hidden");
         document.getElementById("success").classList.remove("hidden");
-
         setTimeout(() => tg.close(), 1600);
 
       } catch (err) {
-        console.error('Ошибка:', err);
+        console.error("❌ ПОЛНАЯ ОШИБКА:", err);
         btn.disabled = false;
         btn.innerHTML = 'Отправить анкету <i class="fas fa-paper-plane ml-2"></i>';
-        alert('Ошибка отправки:\n' + err.message + '\n\nПроверьте консоль (F12)');
+        alert('Ошибка отправки:\n' + err.message + '\n\nПроверь консоль F12 и пришли мне полный текст ошибки!');
       }
     }
 
-    // Инициализация
     updateProgress();
   </script>
 </body>
