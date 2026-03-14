@@ -4,13 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ПВЗ • Трудоустройство</title>
- 
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-   
+  
     body {
       background: radial-gradient(circle at top right, #2e1065, #020617);
       font-family: 'Inter', sans-serif;
@@ -51,11 +50,11 @@
 </head>
 <body class="flex items-center justify-center p-4">
   <div class="glass max-w-xl w-full rounded-[2.5rem] shadow-2xl p-6 md:p-10">
-   
+  
     <div class="relative mb-12 px-4">
       <div class="progress-bar-bg"></div>
       <div id="progressFill" class="progress-bar-fill"></div>
-     
+    
       <div class="flex justify-between relative">
         <div class="flex flex-col items-center">
           <div id="circle1" class="step-circle bg-emerald-500 text-white shadow-[0_0_15px_rgba(16,185,129,0.4)]">
@@ -63,14 +62,14 @@
           </div>
           <span class="text-[10px] uppercase tracking-widest mt-2 font-bold text-emerald-400">Инфо</span>
         </div>
-       
+      
         <div class="flex flex-col items-center">
           <div id="circle2" class="step-circle bg-white/10 text-white/40">
             <i class="fas fa-file-alt text-sm"></i>
           </div>
           <span class="text-[10px] uppercase tracking-widest mt-2 font-bold text-white/40">Фото</span>
         </div>
-       
+      
         <div class="flex flex-col items-center">
           <div id="circle3" class="step-circle bg-white/10 text-white/40">
             <i class="fas fa-credit-card text-sm"></i>
@@ -79,9 +78,8 @@
         </div>
       </div>
     </div>
-
     <form id="regForm" onsubmit="return false;">
-     
+    
       <div id="step1" class="step-content">
         <div class="text-center mb-8">
           <h2 class="text-3xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">Личные данные</h2>
@@ -93,7 +91,7 @@
             <input id="name" type="text" required placeholder="ФИО полностью"
               class="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-5 py-4 focus:outline-none focus:border-emerald-500 transition-all">
           </div>
-         
+        
           <div class="relative">
             <i class="fas fa-calendar-alt absolute left-4 top-5 text-white/30"></i>
             <input id="birth" type="text" maxlength="10" required placeholder="DD.MM.YYYY"
@@ -101,12 +99,11 @@
           </div>
           <input id="phone" type="tel" required placeholder="+7 (___) ___-__-__"
             class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-all">
-         
+        
           <textarea id="address" rows="3" required placeholder="Адрес проживания"
             class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-all"></textarea>
         </div>
       </div>
-
       <div id="step2" class="step-content hidden">
         <div class="text-center mb-8">
           <h2 class="text-3xl font-bold">Документы</h2>
@@ -139,7 +136,6 @@
           </div>
         </div>
       </div>
-
       <div id="step3" class="step-content hidden">
         <div class="text-center mb-8">
           <h2 class="text-3xl font-bold">Реквизиты</h2>
@@ -152,7 +148,6 @@
             class="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 focus:outline-none focus:border-emerald-500 transition-all">
         </div>
       </div>
-
       <div class="flex gap-4 mt-10">
         <button type="button" id="btnBack" onclick="prevStep()"
           class="flex-1 py-4 rounded-2xl bg-white/5 hover:bg-white/10 font-semibold transition-all hidden border border-white/10">Назад</button>
@@ -162,7 +157,6 @@
         </button>
       </div>
     </form>
-
     <div id="success" class="hidden text-center py-8">
       <div class="w-24 h-24 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-6">
         <i class="fas fa-check text-4xl"></i>
@@ -208,7 +202,6 @@
     function updateProgress() {
       const fill = document.getElementById("progressFill");
       fill.style.width = ((currentStep - 1) / 2 * 100) + "%";
-
       for (let i = 1; i <= 3; i++) {
         const circle = document.getElementById(`circle${i}`);
         const text = circle.nextElementSibling;
@@ -226,10 +219,9 @@
           text.className = "text-[10px] uppercase mt-2 font-bold text-white/40";
         }
       }
-
       document.getElementById("btnBack").classList.toggle("hidden", currentStep === 1);
-      document.getElementById("btnNext").innerHTML = currentStep === 3 
-        ? 'Отправить анкету <i class="fas fa-paper-plane ml-2"></i>' 
+      document.getElementById("btnNext").innerHTML = currentStep === 3
+        ? 'Отправить анкету <i class="fas fa-paper-plane ml-2"></i>'
         : 'Далее <i class="fas fa-chevron-right ml-2 text-xs"></i>';
     }
 
@@ -243,18 +235,15 @@
       const stepEl = document.getElementById(`step${currentStep}`);
       const inputs = stepEl.querySelectorAll('input[required], textarea[required]');
       let valid = true;
-
       inputs.forEach(i => {
         if (!i.value.trim()) valid = false;
       });
 
-      // Проверка даты на шаге 1
       if (currentStep === 1) {
         const birthVal = document.getElementById("birth").value;
-        if (!/^\d{2}.\d{2}.\d{4}$/.test(birthVal)) valid = false;
+        if (!/^\d{2}\.\d{2}\.\d{4}$/.test(birthVal)) valid = false;
       }
 
-      // Проверка всех фото на шаге 2
       if (currentStep === 2) {
         if (!document.getElementById('passport').files.length ||
             !document.getElementById('propiska').files.length ||
@@ -294,83 +283,71 @@
       const btn = document.getElementById("btnNext");
       btn.disabled = true;
       btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Отправка...`;
-    
-      // Получаем файлы и base64 (без изменений)
+
       const pFile = document.getElementById('passport').files[0];
       const prFile = document.getElementById('propiska').files[0];
       const sFile = document.getElementById('snils').files[0];
       const iFile = document.getElementById('inn').files[0];
-    
+
       const getBase64 = (file) => new Promise(resolve => {
         if (!file) return resolve(null);
         const reader = new FileReader();
         reader.onload = () => resolve(reader.result.split(',')[1]);
         reader.readAsDataURL(file);
       });
-    
+
       const [pB64, prB64, sB64, iB64] = await Promise.all([
         getBase64(pFile), getBase64(prFile), getBase64(sFile), getBase64(iFile)
       ]);
-    
+
+      // === ПОЛНЫЕ ДАННЫЕ ДЛЯ GOOGLE SCRIPT ===
       const data = {
+        telegram_id: tg.initDataUnsafe?.user?.id || null,
         name: document.getElementById("name").value.trim(),
         birth: document.getElementById("birth").value,
         phone: document.getElementById("phone").value.trim(),
         address: document.getElementById("address").value.trim(),
         bank_name: document.getElementById("bank_name").value.trim(),
         card_number: document.getElementById("card_number").value.trim(),
-        passport_base64: pB64, passport_name: pFile?.name, passport_type: pFile?.type,
-        propiska_base64: prB64, propiska_name: prFile?.name, propiska_type: prFile?.type,
-        snils_base64: sB64, snils_name: sFile?.name, snils_type: sFile?.type,
-        inn_base64: iB64, inn_name: iFile?.name, inn_type: iFile?.type
+        passport_base64: pB64, passport_name: pFile?.name || "", passport_type: pFile?.type || "",
+        propiska_base64: prB64, propiska_name: prFile?.name || "", propiska_type: prFile?.type || "",
+        snils_base64: sB64, snils_name: sFile?.name || "", snils_type: sFile?.type || "",
+        inn_base64: iB64, inn_name: iFile?.name || "", inn_type: iFile?.type || ""
       };
-    
+
       try {
         const response = await fetch('https://script.google.com/macros/s/AKfycbw5SlPLY5XMUyTuMJgVlbWaJ3AhlhdN2KXWQUsUMAgSw89X1Pu44UXOgxwEpzSD93uA/exec', {
           method: 'POST',
-          mode: 'cors',                // ← можно оставить, но не обязательно
-          redirect: 'follow',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'   // ← КЛЮЧЕВОЕ ИЗМЕНЕНИЕ!
-          },
-          body: JSON.stringify(data)   // тело остаётся JSON, но тип — text/plain
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(data)
         });
-      
+
         const resultText = await response.text();
-        let result;
-        try {
-          result = JSON.parse(resultText);
-        } catch (parseErr) {
-          throw new Error("Google вернул невалидный ответ: " + resultText);
-        }
-      
+        let result = JSON.parse(resultText);
+
         if (result.status !== 'success') {
-          throw new Error(result.message || 'Неизвестная ошибка от Google');
+          throw new Error(result.message || 'Ошибка Google Apps Script');
         }
-      
-        // Успех → отправляем данные боту Telegram
+
+        // === ОТПРАВКА В ТЕЛЕГРАМ БОТ ===
         const botData = {
           action: "registration_complete",
           name: data.name,
-          birth: data.birth,
-          phone: data.phone,
-          address: data.address,
-          bank_name: data.bank_name,
-          card_number: data.card_number
+          telegram_id: data.telegram_id
         };
         tg.sendData(JSON.stringify(botData));
-      
+
         tg.HapticFeedback.notificationOccurred('success');
         document.getElementById("regForm").classList.add("hidden");
         document.getElementById("success").classList.remove("hidden");
-      
+
         setTimeout(() => tg.close(), 1600);
-      
+
       } catch (err) {
         console.error('Ошибка:', err);
         btn.disabled = false;
         btn.innerHTML = 'Отправить анкету <i class="fas fa-paper-plane ml-2"></i>';
-        alert('Ошибка:\n' + err.message + '\n\nПроверь консоль (F12) и пришли мне полный текст ошибки.');
+        alert('Ошибка отправки:\n' + err.message + '\n\nПроверьте консоль (F12)');
       }
     }
 
